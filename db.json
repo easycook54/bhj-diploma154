@@ -40,6 +40,26 @@
       "name": "Бизнес",
       "user_id": "1",
       "id": "3"
+    },
+    {
+      "name": "На почетную старость",
+      "user_id": "g2pcb5fol8enhi04",
+      "id": "g2pcb1pwl8gx8mh7"
+    },
+    {
+      "name": "На новую машину",
+      "user_id": "g2pcb5fol8enhi04",
+      "id": "g2pcb4b4l8h6cltl"
+    },
+    {
+      "name": "УглеМетТрансЭнергобанк",
+      "user_id": "g2pcb5fol8enhi04",
+      "id": "g2pcb4ksl8ha8z8i"
+    },
+    {
+      "name": "Сбербанк",
+      "user_id": "g2pcb40kl8eezwtv",
+      "id": "g2pcb4ksl8habgm7"
     }
   ],
   "transactions": [
@@ -177,6 +197,51 @@
       "sum": 300000,
       "type": "expense",
       "user_id": "1"
+    },
+    {
+      "id": "g2pcb95gl8h5s4om",
+      "type": "income",
+      "name": "зарплата",
+      "sum": 100,
+      "account_id": "g2pcb1pwl8gx8mh7",
+      "user_id": "g2pcb5fol8enhi04",
+      "created_at": "2022-09-25T09:49:00.213Z"
+    },
+    {
+      "id": "g2pcb4b4l8h6darj",
+      "type": "income",
+      "name": "аренда",
+      "sum": 15,
+      "account_id": "g2pcb4b4l8h6cltl",
+      "user_id": "g2pcb5fol8enhi04",
+      "created_at": "2022-09-25T10:05:27.871Z"
+    },
+    {
+      "id": "g2pcb4ksl8ha9zt0",
+      "type": "expense",
+      "name": "штраф",
+      "sum": 50,
+      "account_id": "g2pcb1pwl8gx8mh7",
+      "user_id": "g2pcb5fol8enhi04",
+      "created_at": "2022-09-25T11:54:52.165Z"
+    },
+    {
+      "id": "g2pcb4ksl8habpzs",
+      "type": "income",
+      "name": "Зарплата",
+      "sum": 50000,
+      "account_id": "g2pcb4ksl8habgm7",
+      "user_id": "g2pcb40kl8eezwtv",
+      "created_at": "2022-09-25T11:56:12.760Z"
+    },
+    {
+      "id": "g2pcb4ksl8hac18c",
+      "type": "expense",
+      "name": "Аренда квартиры",
+      "sum": 20000,
+      "account_id": "g2pcb4ksl8habgm7",
+      "user_id": "g2pcb40kl8eezwtv",
+      "created_at": "2022-09-25T11:56:27.324Z"
     }
   ]
 }

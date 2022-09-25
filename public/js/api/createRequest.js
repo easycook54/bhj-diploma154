@@ -2,11 +2,11 @@
  * Основная функция для совершения запросов
  * на сервер.
  * */
- const createRequest = (options = {}) => {
-  let xhr = new XMLHttpRequest();
-  xhr.responseType = options.responseType;
+const createRequest = (options = {}) => {
+  const xhr = new XMLHttpRequest();
+  xhr.responseType = 'json';
   xhr.withCredentials = true;
-  let formData = new FormData();
+  const formData = new FormData();
   let urlString = options.url;
 
   if (options.data) {
@@ -23,29 +23,22 @@
   }
 
   try {
-    if (options.method == "GET") {
+    if (options.method === "GET") {
       xhr.open(options.method, urlString);
       xhr.send();
 
     } else {
-      xhr.open(options.method, options.url);
+      xhr.open(options.method, urlString);
       xhr.send(formData);
     }
 
   } catch (e) {
-    options.callback(e);
+    console.log('catch' + e);
   }
 
-  try {
-    xhr.addEventListener("readystatechange", function () {
-      if (xhr.readyState === xhr.DONE && xhr.status === 200) {
+  xhr.addEventListener('load', function() {
+      if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
         options.callback(null, xhr.response);
       }
     });
-
-  } catch (err) {
-    options.callback(err);
-  }
-
-  return xhr;
 };

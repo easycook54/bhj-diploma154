@@ -31,7 +31,15 @@ class AccountsWidget {
    * вызывает AccountsWidget.onSelectAccount()
    * */
   registerEvents() {
-
+    document.querySelector(".create-account").addEventListener("click", () => {
+      App.getModal("createAccount").open();
+    });
+     
+    this.element.addEventListener("click", (e) => {
+      if (e.target.closest(".account")) {
+        this.onSelectAccount(e.target.closest(".account"));
+      }
+    })
   }
 
   /**
@@ -45,13 +53,20 @@ class AccountsWidget {
    * метода renderItem()
    * */
   update() {
-    if (User.current()) {
-      Account.list(User.current(), (data) => {
+    
+  if (User.current()) {
+    Account.list(User.current(), (err, response) => {
+      if (response && response.success) {
         this.clear();
-        this.renderItem(data);
-      });
-    };
+        if (response.data) {
+          response.data.forEach(element => {
+            this.renderItem(element);
+          });
+        }
+      }
+    });
   }
+}
 
   /**
    * Очищает список ранее отображённых счетов.
@@ -83,14 +98,10 @@ class AccountsWidget {
    * отображения в боковой колонке.
    * item - объект с данными о счёте
    * */
-  getAccountHTML(item){
-    return `
-    <li class='account' data-id='${item.id}'>
-      <a href='#'>
-        ${item.name}/${item.sum} ₽
-      </a>
-     </li> 
-    `;
+  getAccountHTML(item) {
+    return `<li class='account' data-id='${item.id}'>
+      <a href='#'>${item.name} /${item.sum} ₽</a>
+     </li>`
   }
 
   /**

@@ -80,7 +80,7 @@ class User {
    * */
   static register(data, callback) {
     return createRequest({
-      url: User.URL + '/register',
+      url: this.URL + '/register',
       data,
       method: 'POST',
       callback: (err, response) => {
@@ -101,7 +101,7 @@ class User {
       url: this.URL + '/logout',
       method: 'POST',
       callback: (err, response) => {
-        if (response && response.success) {
+        if (response.success) {
           this.unsetCurrent();
         }
         callback(err, response);

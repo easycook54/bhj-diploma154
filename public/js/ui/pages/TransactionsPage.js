@@ -14,19 +14,15 @@ class TransactionsPage {
     if (!element) {
       throw new Error('Ошибка! Элемент не определен');
     }
-    this.element = element
-    this.registerEvents()
+    this.element = element;
+    this.registerEvents();
   }
 
   /**
    * Вызывает метод render для отрисовки страницы
    * */
   update() {
-    if (this.element.lastOptions) {
-      this.render(this.element.lastOptions)
-    } else {
-      this.render()
-    }
+    this.render(this.lastOptions);
   }
 
   /**
@@ -94,23 +90,18 @@ class TransactionsPage {
    * в TransactionsPage.renderTransactions()
    * */
   render(options) {
-    if (!options) {
-      return;
+    if (options) {
+       this.lastOptions = options;
+       Account.get(options.account_id, {}, (err, response) => {
+        this.renderTitle(response.data.name)
+    });
+
+      Transaction.list(options, (err, response) => {
+        if (response && response.success) {
+        this.renderTransactions(response.data)
+        };
+      });
     }
-
-    this.lastOptions = options;
-    Account.get(options.account_id, (err, response) => {
-      if (response && response.data.name !== undefined) {
-        console.log(response.data.name);
-        this.renderTitle(response.data.name);
-      }
-    });
-
-    Transaction.list(options, (err, response) => {
-      if (response && response.success) {
-        this.renderTransactions(response.data);
-      };
-    });
   }
 
   /**
@@ -128,7 +119,7 @@ class TransactionsPage {
    * Устанавливает заголовок в элемент .content-title
    * */
   renderTitle(name) {
-    this.element.querySelector('.content-title').textContent = `${name}`;
+    this.element.querySelector('.content-title').textContent = name;
   }
 
   /**
@@ -154,18 +145,15 @@ class TransactionsPage {
         </div>
         <div class="transaction__info">
             <h4 class="transaction__title">${item.name}</h4>
-            <!-- дата -->
             <div class="transaction__date">${this.formatDate(item.created_at)}</div>
         </div>
       </div>
       <div class="col-md-3">
         <div class="transaction__summ">
-        <!--  сумма -->
-            ${item.sum} <span class="currency">₽</span>
+           ${item.sum} <span class="currency">₽</span>
         </div>
       </div>
       <div class="col-md-2 transaction__controls">
-          <!-- в data-id нужно поместить id -->
           <button class="btn btn-danger transaction__remove" data-id="${item.id}">
               <i class="fa fa-trash"></i>  
           </button>
@@ -180,13 +168,11 @@ class TransactionsPage {
    * */
   renderTransactions(data) {
     const contentElem = this.element.querySelector('.content');
-    if (!data) {
-      return;
-    }
     contentElem.innerHTML = '';
-    data.forEach((element) => {
-      const transactionsMarkUp = this.getTransactionHTML(element);
-      contentElem.insertAdjacentHTML('afterbegin', transactionsMarkUp);
+    if (data) {
+      data.forEach(element => {
+      contentElem.insertAdjacentHTML('beforeend', this.getTransactionHTML(element));
     });
   }
+}
 }
