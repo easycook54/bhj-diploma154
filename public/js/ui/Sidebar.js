@@ -49,7 +49,7 @@ class Sidebar {
 
     logout.addEventListener('click', (e) => {
       e.preventDefault();
-      User.logout({}, (err, response) => {
+      User.logout((err, response) => {
         if (response.success) {
           App.setState('init');
           User.unsetCurrent();

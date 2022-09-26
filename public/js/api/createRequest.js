@@ -10,35 +10,32 @@ const createRequest = (options = {}) => {
   let urlString = options.url;
 
   if (options.data) {
-    urlString += "?";
-    for (let key in options.data) {
-      urlString += key + "=" + options.data[key] + "&";
-      formData.append(key, options.data[key]);
+    if (options.method === 'GET') {
+      urlString += '?' + Object.entries(options.data).map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join('&');
     }
-    urlString = urlString.slice(0, -1);
-
-  } else {
-    options.data = {};
-    urlString = "";
-  }
-
-  try {
-    if (options.method === "GET") {
-      xhr.open(options.method, urlString);
-      xhr.send();
-
-    } else {
-      xhr.open(options.method, urlString);
-      xhr.send(formData);
+    else {
+      Object.entries(options.data).forEach(v => formData.append(...v));
     }
-
-  } catch (e) {
-    console.log('catch' + e);
   }
 
   xhr.addEventListener('load', function() {
-      if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-        options.callback(null, xhr.response);
-      }
-    });
+    let err = null;
+    let response = null;
+    const r = xhr.response;
+    if (r && r.success) {
+      response = r;
+    }
+    else {
+        err = r;
+    }
+    options.callback(err, response);
+  });
+  
+  try {
+    xhr.open(options.method, urlString);
+    xhr.send(formData);
+  }
+  catch (e) {
+    callback(e);
+  }
 };

@@ -75,7 +75,7 @@ class TransactionsPage {
   removeTransaction(id) {
     const remTrans = confirm("Вы действительно хотите удалить эту транзакцию?");
     if (remTrans) {
-      Transaction.remove({ id: id }, ((err, response) => {
+      Transaction.remove(id, ((err, response) => {
         if (response.success) {
           App.update();
         }
@@ -92,7 +92,7 @@ class TransactionsPage {
   render(options) {
     if (options) {
        this.lastOptions = options;
-       Account.get(options.account_id, {}, (err, response) => {
+       Account.get(options.account_id, (err, response) => {
         this.renderTitle(response.data.name)
     });
 
